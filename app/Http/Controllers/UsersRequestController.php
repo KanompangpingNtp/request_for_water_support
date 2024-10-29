@@ -73,7 +73,6 @@ class UsersRequestController extends Controller
             'capacity' => $validatedData['capacity'],
         ]);
 
-        // Redirect back with a success message
         return redirect()->back()->with('success', 'คำร้องขอความอนุเคราะห์น้ำอุปโภค-บริโภคได้ถูกส่งเรียบร้อยแล้ว');
     }
 }
