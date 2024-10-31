@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('reply_forms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('water_support_requests_id')->constrained('water_support_requests')->onDelete('cascade'); // เชื่อมโยงกับคำร้องน้ำ
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('message');
             $table->timestamps();
         });

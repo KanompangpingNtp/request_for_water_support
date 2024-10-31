@@ -1,5 +1,6 @@
-@extends('layout.admin_layout')
-@section('admin_layout')
+@extends('layout.users_account_layout')
+@section('account_layout')
+
 @if ($message = Session::get('success'))
 <script>
     Swal.fire({
@@ -11,12 +12,8 @@
 @endif
 
 <div class="container">
-
-<a href="{{route('admin.requests')}}">กลับหน้าเดิม</a>
-<br>
-<br>
     <h2>แก้ไขคำร้อง</h2>
-    <form action="{{ route('AdminFormUpdate', $request->id) }}" method="POST">
+    <form action="{{ route('FormUpdate', $request->id) }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="request_date" class="form-label">วันที่ส่งแบบฟอร์ม</label>
@@ -101,4 +98,5 @@
         <button type="submit" class="btn btn-primary">บันทึกการแก้ไข</button>
     </form>
 </div>
+
 @endsection

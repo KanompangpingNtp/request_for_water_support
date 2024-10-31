@@ -48,7 +48,7 @@
                 </td>
                 <td>
                     @if($request->status == 1)
-                    <p> - </p>
+                    <p>  </p>
                     @elseif($request->status == 2)
                     <p style="font-size: 20px; color:blue;"><i class="bi bi-check-circle"></i></p>
                     @endif
@@ -68,7 +68,7 @@
                 </div>
                 <div class="modal-body">
                     <span style="color: black;">preview</span>
-                    <a href="{{ route('exportPDF', $request->id) }}" class="btn btn-danger btn-sm" target="_blank">
+                    <a href="{{ route('adminexportPDF', $request->id) }}" class="btn btn-danger btn-sm" target="_blank">
                         <i class="bi bi-file-earmark-pdf"></i>
                     </a>
                 </div>
@@ -88,18 +88,19 @@
 
     @foreach($requests as $form)
     <div class="modal fade" id="replyModal-{{ $form->id }}" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="replyModalLabel">ตอบกลับฟอร์ม</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p><span style="color: black;">ชื่อผู้ส่งฟอร์ม : </span>{{ $form->user ? $form->user->fullname : 'ผู้ใช้งานทั่วไป' }}</p>
+                    <p><span style="color: black;">ชื่อผู้ส่งฟอร์ม : </span>{{ $form->user ? $form->salutation . ' ' . $form->user->first_name . ' ' .$form->user->last_name : 'ผู้ใช้งานทั่วไป' }}</p>
                     <p>ข้อความตอบกลับก่อนหน้า</p>
                     <table class="table table-bordered">
                         <thead>
                             <tr class="text-center">
+                                <th>ผู้ตอบกลับ</th>
                                 <th>วันที่ตอบกลับ</th>
                                 <th>ข้อความที่ตอบกลับ</th>
                             </tr>
@@ -107,6 +108,7 @@
                         <tbody>
                             @forelse($form->replyforms as $reply)
                             <tr class="text-center">
+                                <td>{{ $reply->user ? $reply->user->first_name . ' ' . $reply->user->last_name : 'ไม่ระบุชื่อ' }}</td>
                                 <td>
                                     {{ $reply->created_at->timezone('Asia/Bangkok')->translatedFormat('d F') }} {{ $reply->created_at->year + 543 }}
                                     {{ $reply->created_at->format('H:i') }} น.

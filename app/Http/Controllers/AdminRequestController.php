@@ -16,7 +16,7 @@ class AdminRequestController extends Controller
     public function showRequests()
     {
         // ดึงข้อมูลคำร้องทั้งหมดพร้อมกับข้อมูลผู้ใช้และการตอบกลับ
-        $requests = WaterSupportRequest::with(['user', 'replyforms'])
+        $requests = WaterSupportRequest::with(['user', 'replyforms.user'])
             // ->orderBy('created_at', 'desc') // เรียงตามวันที่สร้างใหม่ที่สุด
             ->get();
 
@@ -32,14 +32,9 @@ class AdminRequestController extends Controller
         // สร้างการตอบกลับใหม่
         ReplyForm::create([
             'water_support_requests_id' => $id,
+            'user_id' => auth()->id(),
             'message' => $validatedData['message'],
         ]);
-
-        // อัพเดทสถานะหรือชื่อผู้ตอบกลับถ้าจำเป็น
-        $waterSupportRequest = WaterSupportRequest::findOrFail($id);
-        $waterSupportRequest->user_name_verifier = Auth::user()->fullname; // สมมติว่ามีชื่อผู้ตอบ
-        $waterSupportRequest->status = 'ตอบกลับแล้ว'; // ปรับสถานะตามที่ต้องการ
-        $waterSupportRequest->save();
 
         return redirect()->back()->with('success', 'ส่งข้อความตอบกลับเรียบร้อยแล้ว');
     }
@@ -54,7 +49,7 @@ class AdminRequestController extends Controller
     }
 
 
-    public function FormUpdate(Request $request, $id)
+    public function AdminFormUpdate(Request $request, $id)
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
@@ -121,7 +116,7 @@ class AdminRequestController extends Controller
         return redirect()->back()->with('success', 'สถานะได้รับการอัปเดตเรียบร้อยแล้ว');
     }
 
-    public function exportPDF($id)
+    public function adminexportPDF($id)
     {
         // ค้นหาข้อมูล WaterSupportRequest โดย ID
         $request = WaterSupportRequest::find($id);

@@ -11,6 +11,7 @@ class ReplyForm extends Model
 
     protected $fillable = [
         'water_support_requests_id',
+        'user_id',
         'message',
     ];
 
@@ -18,4 +19,10 @@ class ReplyForm extends Model
     {
         return $this->belongsTo(WaterSupportRequest::class, 'water_support_requests_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

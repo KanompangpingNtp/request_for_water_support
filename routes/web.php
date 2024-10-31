@@ -47,14 +47,18 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/requests', [AdminRequestController::class, 'showRequests'])->name('admin.requests');
     Route::post('/forms/reply/{id}', [AdminRequestController::class, 'reply'])->name('forms.reply');
     Route::get('admin/water-support-requests/{id}/edit', [AdminRequestController::class, 'ShowFormEdit'])->name('ShowFormEdit');
-    Route::post('admin/water-support-requests/{id}', [AdminRequestController::class, 'FormUpdate'])->name('FormUpdate');
+    Route::post('admin/water-support-requests/{id}', [AdminRequestController::class, 'AdminFormUpdate'])->name('AdminFormUpdate');
     Route::post('/requests/update-status/{id}', [AdminRequestController::class, 'updateStatus'])->name('updateStatus');
-    Route::get('/requests/export/{id}', [AdminRequestController::class, 'exportPDF'])->name('exportPDF');
+    Route::get('/requests/export/{id}', [AdminRequestController::class, 'adminexportPDF'])->name('adminexportPDF');
 });
 
 // Route สำหรับ users
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/users', [UsersRequestController::class, 'userAccount'])->name('userAccount');
     Route::get('/users/follw', [UsersRequestController::class, 'showUserRequest'])->name('showUserRequest');
+    Route::get('/user/requests/export/{id}', [UsersRequestController::class, 'exportPDF'])->name('exportPDF');
+    Route::get('user/water-support-requests/{id}/edit', [UsersRequestController::class, 'ShowFormUserEdit'])->name('ShowFormUserEdit');
+    Route::post('user/water-support-requests/{id}', [UsersRequestController::class, 'FormUpdate'])->name('FormUpdate');
+    Route::post('/user/forms/reply/{id}', [UsersRequestController::class, 'userreply'])->name('userreply');
 });
 
